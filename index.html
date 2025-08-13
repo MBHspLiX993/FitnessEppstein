@@ -1,19 +1,886 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>My static Space</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<body>
-		<div class="card">
-			<h1>Welcome to your static Space!</h1>
-			<p>You can modify this app directly by editing <i>index.html</i> in the Files and versions tab.</p>
-			<p>
-				Also don't forget to check the
-				<a href="https://huggingface.co/docs/hub/spaces" target="_blank">Spaces documentation</a>.
-			</p>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Eppstein - Modernes Fitnessstudio im Taunus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        
+        .trainer-card:hover .trainer-overlay {
+            opacity: 1;
+        }
+        
+        .trainer-overlay {
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center">
+                        <span class="text-2xl font-bold text-red-600">FITNESS</span>
+                        <span class="text-2xl font-bold text-gray-800">EPPSTEIN</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Start</a>
+                    <a href="#about" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Über uns</a>
+                    <a href="#services" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Angebote</a>
+                    <a href="#trainers" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Trainer</a>
+                    <a href="#pricing" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Preise</a>
+                    <a href="#contact" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">Kontakt</a>
+                    <div class="flex items-center space-x-4">
+                        <a href="#" onclick="openRegistrationModal('vollmitgliedschaft')" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium">
+                            Registrieren
+                        </a>
+                        <div class="relative group">
+                            <button id="login-btn" class="text-gray-800 hover:text-red-600 px-3 py-2 font-medium flex items-center">
+                                <i class="fas fa-user-circle mr-2"></i> Login
+                            </button>
+                            <!-- Dropdown Login Form -->
+                            <div id="login-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg z-50 group-hover:block hover:block">
+                            <form id="login-form" class="p-4 space-y-4">
+                                <input type="email" placeholder="E-Mail" class="w-full px-3 py-2 border rounded" required>
+                                <input type="password" placeholder="Passwort" class="w-full px-3 py-2 border rounded" required>
+                                <button type="submit" class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">Einloggen</button>
+                                <a href="#" class="block text-sm text-gray-600 hover:text-red-600 text-center">Passwort vergessen?</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-800 hover:text-red-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white pb-4">
+            <div class="px-2 pt-2 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Start</a>
+                <a href="#about" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Über uns</a>
+                <a href="#services" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Angebote</a>
+                <a href="#trainers" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Trainer</a>
+                <a href="#pricing" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Preise</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-800 hover:text-red-600 font-medium">Kontakt</a>
+                <div class="pt-2 border-t border-gray-200 px-3">
+                    <a href="#" onclick="openRegistrationModal('vollmitgliedschaft')" class="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-2 rounded mb-3 transition duration-300">
+                        Registrieren
+                    </a>
+                    <form id="mobile-login-form" class="space-y-3">
+                        <input type="email" placeholder="E-Mail" class="w-full px-3 py-2 border rounded" required>
+                        <input type="password" placeholder="Passwort" class="w-full px-3 py-2 border rounded" required>
+                        <button type="submit" class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">Einloggen</button>
+                        <a href="#" class="block text-sm text-gray-600 hover:text-red-600 text-center">Passwort vergessen?</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-20">
+        <div class="relative h-screen flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center">
+            <div class="hero-gradient absolute inset-0"></div>
+            <div class="relative z-10 text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Dein Fitnessstudio in Eppstein</h1>
+                <p class="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">Professionelles Training in familiärer Atmosphäre. Starte jetzt deine Fitness-Reise!</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#pricing" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">Jetzt Mitglied werden</a>
+                    <a href="#contact" class="bg-transparent hover:bg-white hover:text-gray-900 text-white font-bold py-3 px-8 border-2 border-white rounded-lg transition duration-300">Kostenlose Beratung</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Über Fitness Eppstein</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" alt="Fitness Eppstein Studio" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Dein Fitnessstudio im Herzen von Eppstein</h3>
+                    <p class="text-gray-600 mb-6">Seit über 15 Jahren begleiten wir unsere Mitglieder auf ihrem Weg zu mehr Fitness, Gesundheit und Wohlbefinden. Unser modern ausgestattetes Studio bietet optimale Trainingsbedingungen in freundlicher Atmosphäre.</p>
+                    <p class="text-gray-600 mb-6">Unser Team aus qualifizierten Trainern steht dir mit Rat und Tat zur Seite und entwickelt individuelle Trainingspläne, die genau auf deine Ziele abgestimmt sind.</p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-dumbbell text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Moderne Geräte</h4>
+                                <p class="text-gray-600 text-sm">Top-ausgestattet mit Markengeräten</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-users text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Persönliche Betreuung</h4>
+                                <p class="text-gray-600 text-sm">Individuelle Trainingspläne</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-calendar-alt text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Flexible Öffnungszeiten</h4>
+                                <p class="text-gray-600 text-sm">Von früh bis spät geöffnet</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-heart text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Gesundheitsorientiert</h4>
+                                <p class="text-gray-600 text-sm">Prävention & Rehabilitation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Unsere Angebote</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-[url('https://images.unsplash.com/photo-1571019614242-c955d0db2628?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')] bg-cover bg-center"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Krafttraining</h3>
+                        <p class="text-gray-600 mb-4">Modernste Kraftgeräte für effektives Ganzkörpertraining. Von Anfänger bis Profi - für jeden das passende Gerät.</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Markengeräte von Technogym</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Individuelle Einweisung</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Trainingsplanung</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-[url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Cardio-Training</h3>
+                        <p class="text-gray-600 mb-4">Hochwertige Cardiogeräte für Ausdauertraining und Fettverbrennung. Mit Entertainment-System für motiviertes Training.</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Laufbänder mit TV</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Crosstrainer & Stepper</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Rudergeräte</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-[url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')] bg-cover bg-center"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Gruppenkurse</h3>
+                        <p class="text-gray-600 mb-4">Abwechslungsreiches Kursprogramm für alle Fitnesslevels. Von entspannend bis hochintensiv - für jeden was dabei.</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Yoga & Pilates</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> HIIT & Functional</li>
+                            <li class="flex items-center"><i class="fas fa-check text-red-600 mr-2"></i> Zumba & Dance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers Section -->
+    <section id="trainers" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Unsere Trainer</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Unser erfahrenes Trainerteam steht dir mit Rat und Tat zur Seite und unterstützt dich bei der Erreichung deiner Ziele.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Trainer 1 -->
+                <div class="trainer-card relative rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Trainer Markus" class="w-full h-80 object-cover">
+                    <div class="trainer-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 flex items-end p-6">
+                        <div>
+                            <h3 class="text-white text-xl font-bold">Markus Schmidt</h3>
+                            <p class="text-red-400 mb-2">Fitnesscoach & Personal Trainer</p>
+                            <p class="text-gray-300 text-sm">Spezialisiert auf Krafttraining und Bodybuilding. 10 Jahre Erfahrung.</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trainer 2 -->
+                <div class="trainer-card relative rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c955d0db2628?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Trainerin Sarah" class="w-full h-80 object-cover">
+                    <div class="trainer-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 flex items-end p-6">
+                        <div>
+                            <h3 class="text-white text-xl font-bold">Sarah Müller</h3>
+                            <p class="text-red-400 mb-2">Yogalehrerin & Gesundheitscoach</p>
+                            <p class="text-gray-300 text-sm">Spezialisiert auf Entspannungstechniken und Stressmanagement.</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trainer 3 -->
+                <div class="trainer-card relative rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Trainer David" class="w-full h-80 object-cover">
+                    <div class="trainer-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 flex items-end p-6">
+                        <div>
+                            <h3 class="text-white text-xl font-bold">David Wagner</h3>
+                            <p class="text-red-400 mb-2">Functional Trainer & Ernährungsberater</p>
+                            <p class="text-gray-300 text-sm">Experte für funktionelles Training und Sporternährung.</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trainer 4 -->
+                <div class="trainer-card relative rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" alt="Trainerin Anna" class="w-full h-80 object-cover">
+                    <div class="trainer-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 flex items-end p-6">
+                        <div>
+                            <h3 class="text-white text-xl font-bold">Anna Becker</h3>
+                            <p class="text-red-400 mb-2">Gruppenkursleiterin & Tanzcoach</p>
+                            <p class="text-gray-300 text-sm">Spezialisiert auf Tanzfitness und motivierende Gruppenkurse.</p>
+                            <div class="flex mt-3 space-x-3">
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-white hover:text-red-400"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Unsere Preise</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Wähle das passende Angebot für deine Bedürfnisse. Jetzt Mitglied werden und sofort starten!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-1 gap-8 max-w-md mx-auto">
+                <!-- Single Membership Plan -->
+                <div class="pricing-card bg-white rounded-lg shadow-xl overflow-hidden transition duration-300 transform hover:-translate-y-2 border-2 border-red-500">
+                    <div class="bg-red-600 text-white py-6 px-6">
+                        <h3 class="text-xl font-bold">Vollmitgliedschaft</h3>
+                        <p class="text-red-100">Unser komplettes Angebot</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-4xl font-bold text-gray-800 mb-4">€45<span class="text-lg text-gray-600">/Monat</span></div>
+                        <div class="text-gray-600 mb-2">+ €60 Servicegebühr pro Jahr</div>
+                        <ul class="text-gray-600 space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Zugang zu allen Geräten</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Alle Gruppenkurse inklusive</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Persönlicher Trainingsplan</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 1x Personal Training pro Monat</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 24/7 Zugang</li>
+                        </ul>
+                        <button type="button" onclick="openRegistrationModal('vollmitgliedschaft')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded text-center transition duration-300">Jetzt Mitglied werden</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <p class="text-gray-600 mb-4">Keine versteckten Kosten. Jährliche Servicegebühr von €60 fällig bei Vertragsabschluss und dann jährlich.</p>
+                <a href="#contact" class="text-red-600 hover:text-red-800 font-medium">Fragen? Kontaktiere uns <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Was unsere Mitglieder sagen</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">"Super freundliches Team und top ausgestattetes Studio. Nach 3 Monaten Training fühle ich mich fitter denn je!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Maria S.</h4>
+                            <p class="text-gray-600 text-sm">Mitglied seit 2021</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">"Die persönliche Betreuung ist einfach klasse. Mein Trainer hat mir geholfen, meine Rückenprobleme in den Griff zu bekommen."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thomas K." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Thomas K.</h4>
+                            <p class="text-gray-600 text-sm">Mitglied seit 2019</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">"Die Kurse machen richtig Spaß und die Trainer sind immer motiviert. Besonders die Yoga-Stunden mit Sarah sind mein Highlight!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia M." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Julia M.</h4>
+                            <p class="text-gray-600 text-sm">Mitglied seit 2022</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Kontakt</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Hast du Fragen oder möchtest ein Probetraining vereinbaren? Wir freuen uns auf deine Nachricht!</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Dein Name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">E-Mail</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Deine E-Mail-Adresse">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefon (optional)</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Deine Telefonnummer">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">Betreff</label>
+                            <select id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                <option value="">Wähle ein Thema</option>
+                                <option value="membership">Mitgliedschaft</option>
+                                <option value="trial">Probetraining</option>
+                                <option value="personal">Personal Training</option>
+                                <option value="other">Andere Anfrage</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Nachricht</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Deine Nachricht"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">Nachricht senden</button>
+                    </form>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="bg-white p-8 rounded-lg shadow-sm h-full">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">So erreichst du uns</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Adresse</h4>
+                                    <p class="text-gray-600">Hauptstraße 24<br>65817 Eppstein</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Telefon</h4>
+                                    <p class="text-gray-600">06198 1234567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">E-Mail</h4>
+                                    <p class="text-gray-600">info@fitness-eppstein.de</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Öffnungszeiten</h4>
+                                    <p class="text-gray-600">
+                                        Mo-Fr: 6:00 - 22:00 Uhr<br>
+                                        Sa-So: 8:00 - 20:00 Uhr
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-800 mb-4">Folge uns</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-full transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-full transition duration-300"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-full transition duration-300"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <div class="h-96 w-full">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2568.123456789012!2d8.3923456!3d50.1234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA3JzI0LjQiTiA4wrAyMyczMi40IkU!5e0!3m2!1sde!2sde!4v1234567890123!5m2!1sde!2sde" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <!-- Admin Dashboard (hidden by default) -->
+    <div id="admin-dashboard" class="hidden bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Admin Dashboard</h2>
+                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Ausloggen
+                </button>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Owner Section -->
+                <div id="owner-section" class="hidden bg-white rounded-lg shadow p-6 text-gray-800">
+                    <h3 class="text-xl font-bold mb-4">Kursverwaltung</h3>
+                    <div class="space-y-4">
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-plus-circle text-red-600 mr-2"></i>Neuen Kurs erstellen
+                        </button>
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-edit text-red-600 mr-2"></i>Kurse bearbeiten
+                        </button>
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-users text-red-600 mr-2"></i>Mitglieder verwalten
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Member Section -->
+                <div id="member-section" class="hidden bg-white rounded-lg shadow p-6 text-gray-800">
+                    <h3 class="text-xl font-bold mb-4">Mein Bereich</h3>
+                    <div class="space-y-4">
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-file-invoice-dollar text-red-600 mr-2"></i>Rechnungen einsehen
+                        </button>
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-calendar-alt text-red-600 mr-2"></i>Kursbuchungen
+                        </button>
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-user-edit text-red-600 mr-2"></i>Profil bearbeiten
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Trainer Section -->
+                <div id="trainer-section" class="hidden bg-white rounded-lg shadow p-6 text-gray-800">
+                    <h3 class="text-xl font-bold mb-4">Trainerbereich</h3>
+                    <div class="space-y-4">
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-calendar-plus text-red-600 mr-2"></i>Kurse planen
+                        </button>
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-left">
+                            <i class="fas fa-clipboard-list text-red-600 mr-2"></i>Teilnehmerlisten
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registration-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Mitgliedschaft beantragen</h3>
+                    <button onclick="closeRegistrationModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="registration-form" class="space-y-4">
+                    <input type="hidden" id="membership-type">
+                    
+                    <div>
+                        <label for="reg-firstname" class="block text-gray-700 mb-1">Vorname*</label>
+                        <input type="text" id="reg-firstname" class="w-full px-4 py-2 border rounded" required>
+                    </div>
+                    
+                    <div>
+                        <label for="reg-lastname" class="block text-gray-700 mb-1">Nachname*</label>
+                        <input type="text" id="reg-lastname" class="w-full px-4 py-2 border rounded" required>
+                    </div>
+                    
+                    <div>
+                        <label for="reg-email" class="block text-gray-700 mb-1">E-Mail*</label>
+                        <input type="email" id="reg-email" class="w-full px-4 py-2 border rounded" required>
+                    </div>
+                    
+                    <div>
+                        <label for="reg-phone" class="block text-gray-700 mb-1">Telefon</label>
+                        <input type="tel" id="reg-phone" class="w-full px-4 py-2 border rounded">
+                    </div>
+                    
+                    <div>
+                        <label for="reg-password" class="block text-gray-700 mb-1">Passwort*</label>
+                        <input type="password" id="reg-password" class="w-full px-4 py-2 border rounded" required>
+                        <div class="text-xs text-gray-500 mt-1" id="password-strength"></div>
+                    </div>
+                    
+                    <div>
+                        <label for="reg-password-confirm" class="block text-gray-700 mb-1">Passwort bestätigen*</label>
+                        <input type="password" id="reg-password-confirm" class="w-full px-4 py-2 border rounded" required>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <input type="checkbox" id="reg-privacy" class="mt-1" required>
+                        <label for="reg-privacy" class="ml-2 text-gray-700 text-sm">
+                            Ich habe die <a href="#" class="text-red-600 hover:underline">Datenschutzerklärung</a> gelesen und akzeptiere sie.*
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <input type="checkbox" id="reg-newsletter" class="mt-1">
+                        <label for="reg-newsletter" class="ml-2 text-gray-700 text-sm">
+                            Ich möchte den Newsletter mit Angeboten und Neuigkeiten erhalten.
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        Registrieren und Mitgliedschaft buchen
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Fitness Eppstein</h3>
+                    <p class="text-gray-400">Dein Fitnessstudio im Herzen von Eppstein. Professionelles Training in familiärer Atmosphäre seit 2008.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition duration-300">Start</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">Über uns</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Angebote</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition duration-300">Preise</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Kontakt</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Rechtliches</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Impressum</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Datenschutz</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">AGB</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Widerrufsrecht</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Bleibe auf dem Laufenden mit unseren Angeboten und News.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Deine E-Mail" class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-900">
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-r-lg transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2023 Fitness Eppstein. Alle Rechte vorbehalten.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // User roles simulation
+        const users = {
+            owner: { email: "owner@fitness-eppstein.de", password: "owner123", role: "owner" },
+            member: { email: "member@example.com", password: "member123", role: "member" },
+            trainer: { email: "trainer@example.com", password: "trainer123", role: "trainer" }
+        };
+
+        let currentUser = null;
+
+        // Login function
+        function loginUser(email, password) {
+            const user = Object.values(users).find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.getElementById('login-btn').innerHTML = `<i class="fas fa-user-circle mr-2"></i> ${user.role}`;
+                
+                // Show relevant section based on role
+                document.getElementById(`${user.role}-section`).classList.remove('hidden');
+                
+                // Hide login dropdown
+                document.getElementById('login-dropdown').classList.add('hidden');
+                return true;
+            }
+            return false;
+        }
+
+        // Logout function
+        function logoutUser() {
+            currentUser = null;
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('login-btn').innerHTML = '<i class="fas fa-user-circle mr-2"></i> Login';
+            
+            // Hide all sections
+            document.querySelectorAll('#admin-dashboard > div > div > div').forEach(el => {
+                el.classList.add('hidden');
+            });
+        }
+
+        // Login form handlers
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (loginUser(email, password)) {
+                alert(`Erfolgreich eingeloggt als ${currentUser.role}`);
+            } else {
+                alert('Falsche E-Mail oder Passwort');
+            }
+        });
+
+        document.getElementById('mobile-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (loginUser(email, password)) {
+                alert(`Erfolgreich eingeloggt als ${currentUser.role}`);
+                document.getElementById('mobile-menu').classList.add('hidden');
+            } else {
+                alert('Falsche E-Mail oder Passwort');
+            }
+        });
+
+        // Logout button
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Registration modal functions
+        function openRegistrationModal(type) {
+            document.getElementById('registration-modal').classList.remove('hidden');
+            document.getElementById('membership-type').value = type;
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById('registration-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Password strength indicator
+        document.getElementById('reg-password').addEventListener('input', function() {
+            const strength = calculatePasswordStrength(this.value);
+            const strengthText = ['Sehr schwach', 'Schwach', 'Mittel', 'Stark', 'Sehr stark'][strength];
+            const strengthColor = ['text-red-600', 'text-red-500', 'text-yellow-500', 'text-green-500', 'text-green-600'][strength];
+            
+            document.getElementById('password-strength').textContent = `Sicherheit: ${strengthText}`;
+            document.getElementById('password-strength').className = `text-xs ${strengthColor} mt-1`;
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length > 0) strength++;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            return Math.min(strength, 4);
+        }
+
+        // Registration form handling
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate password match
+            if (document.getElementById('reg-password').value !== 
+                document.getElementById('reg-password-confirm').value) {
+                alert('Passwörter stimmen nicht überein!');
+                return;
+            }
+            
+            // In a real app, you would send this to your backend
+            const formData = {
+                firstname: document.getElementById('reg-firstname').value,
+                lastname: document.getElementById('reg-lastname').value,
+                email: document.getElementById('reg-email').value,
+                phone: document.getElementById('reg-phone').value,
+                membership: document.getElementById('membership-type').value,
+                newsletter: document.getElementById('reg-newsletter').checked
+            };
+            
+            console.log('Registration data:', formData); // For demo purposes
+            
+            // Simulate successful registration
+            closeRegistrationModal();
+            alert('Vielen Dank für Ihre Registrierung! Sie erhalten in Kürze eine Bestätigungs-E-Mail mit weiteren Schritten.');
+            this.reset();
+        });
+
+        // Form submission (example)
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Vielen Dank für deine Nachricht! Wir werden uns schnellstmöglich bei dir melden.');
+                this.reset();
+            });
+        }
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=ITspLiX/fitness-eppstein" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
